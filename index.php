@@ -9,7 +9,7 @@ $result = $telegram -> getWebhookUpdates(); //Передаем в перемен
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
 $name = $result["message"]["from"]["username"];
-$keyboard = [['text'=>"Отправить геолокацию", 'request_location'=>true]]; //Клавиатура
+$keyboard = [[['text'=>"Отправить геолокацию", 'request_location'=>true]]]; //Клавиатура
 $reply = "Добро пожаловать в бота!";
 
 $reply_markup = $telegram->replyKeyboardMarkup([ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ]);
