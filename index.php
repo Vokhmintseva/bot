@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/src/common.inc.php";
+//include __DIR__ . "/src/common.inc.php";
 include('vendor/autoload.php');
 use Telegram\Bot\Api;
 
@@ -8,21 +8,16 @@ $result = $telegram -> getWebhookUpdates(); //Передаем в перемен
 
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-$name = $result["message"]["from"]["username"]; //Юзернейм пользователя
-$keyboard = [["Отправить геолокацию"],["Картинка"],["Гифка"]]; //Клавиатура
-
-if($text){
-    if ($text == "/start") {
-
-    }
-}
+//$name = $result["message"]["from"]["username"];
+$reply = "Добро пожаловать в бота!";
+$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply ]);
 
 //$Api = new Api('')
 // API ключ
 
 
 
-$apiKey = "b1f2de21066ee19280abfdbdcf6ce24d";
+/*$apiKey = "b1f2de21066ee19280abfdbdcf6ce24d";
 $lat = 55.75;
 $lon = 37.62;
 $url = "http://api.openweathermap.org/data/2.5/weather?lat=" . $lat . "&lon=" . $lon . "&lang=ru&units=metric&appid=" . $apiKey;
@@ -42,6 +37,6 @@ echo
     $cityname."<br />".
     "Влажность воздуха " . $humidity."%<br />".
     $temp_now."°C<br />".$description . "
-<img src='$src' class='condition'/>";
+<img src='$src' class='condition'/>";*/
 
 ?>
