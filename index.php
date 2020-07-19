@@ -11,7 +11,7 @@ $chat_id = $result["message"]["chat"]["id"]; //Уникальный иденти
 $name = $result["message"]["from"]["username"];
 $keyboard = [['text'=>"Отправить геолокацию", 'request_location'=>true]]; //Клавиатура
 $reply = "Добро пожаловать в бота!";
-$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply ]);
+
 $reply_markup = $telegram->replyKeyboardMarkup([ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ]);
 $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
 
