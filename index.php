@@ -10,12 +10,12 @@ $result = $telegram -> getWebhookUpdates(); //Передаем в перемен
 
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-$keyboard = [['text'=>'USD RUB', 'url'=>"http://www.cbr.ru/currency_base/daily/"],['EUR RUB']]; //Клавиатура
+$keyboard = [['text'=>'USD RUB', 'url'=>'http://www.cbr.ru/currency_base/daily/'],['EUR RUB']]; //Клавиатура
 $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
-if($text){
+/*if($text){
     if ($text == "/start") {
 
-    }
+    }*/
 
 
 //$telegram->sendMessage()
