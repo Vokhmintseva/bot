@@ -3,14 +3,21 @@ include __DIR__ . "/src/common.inc.php";
 include('vendor/autoload.php');
 use Telegram\Bot\Api;
 
+
+
 $telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
 $result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
 
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-
-$keyboard = [['USD RUB'],['EUR RUB']]; //Клавиатура
+$keyboard = [['text'=>'USD RUB', 'url'=>"http://www.cbr.ru/currency_base/daily/"],['EUR RUB']]; //Клавиатура
 $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
+if($text){
+    if ($text == "/start") {
+
+    }
+
+
 //$telegram->sendMessage()
 $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
 $reply_markup = json_encode($reply_markup);
