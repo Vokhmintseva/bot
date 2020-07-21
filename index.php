@@ -2,30 +2,10 @@
 include __DIR__ . "/src/common.inc.php";
 include('vendor/autoload.php');
 use Telegram\Bot\Api;
+$currencyArray = ['AUD', 'AZN', 'AMD', 'BYN', 'BGN', 'BRL', 'HUF', 'KRW', 'HKD', 'DKK', 'USD', 'EUR', 'RUB', 'INR',
+    'KZT', 'CAD', 'KGS', 'CNY', 'MDL', 'TMT', 'NOK', 'PLN', 'RON', 'XDR', 'SGD', 'TJS', 'TRY', 'UZS', 'UAH', 'GBP',
+'CZK', 'SEK', 'CHF', 'ZAR', 'JPY'];
 
-
-
-$telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
-$result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
-
-$text = $result["message"]["text"]; //Текст сообщения
-$chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-$keyboard = [['USD RUB'],['EUR RUB']]; //Клавиатура
-$reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
-/*if($text){
-    if ($text == "/start") {
-
-    }*/
-
-
-//$telegram->sendMessage()
-$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
-$reply_markup = json_encode($reply_markup);
-$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-
-/*$apiKey = "4207695fb8eeab4720b1";
-$currency1 = 'USD';
-$currency2 = 'EUR';
 function convertCurrency($amount, $from_currency, $to_currency)
 {
     $apikey = '4207695fb8eeab4720b1';
@@ -38,5 +18,36 @@ function convertCurrency($amount, $from_currency, $to_currency)
     $total = $val * $amount;
     return number_format($total, 2, '.', '');
 }
-echo convertCurrency(1, 'USD', 'RUB');*/
+
+$telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
+$result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
+
+$text = $result["message"]["text"]; //Текст сообщения
+$chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
+$keyboard = [['USD RUB'],['EUR RUB']]; //Клавиатура
+$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+$reply_markup = json_encode($reply_markup);
+if($text){
+    if ($text == "/start") {
+        $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    } elseif ($text == "USD RUB") {
+        $reply = convertCurrency(1, 'USD', 'RUB');
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    } else {
+        $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    }
+}
+
+
+
+//$telegram->sendMessage()
+
+
+$apiKey = "4207695fb8eeab4720b1";
+$currency1 = 'USD';
+$currency2 = 'EUR';
+
+//echo convertCurrency(1, 'USD', 'RUB');
 
