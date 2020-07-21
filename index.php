@@ -38,9 +38,17 @@ if($text){
         $reply = "курс евро к рублю: " . convertCurrency(1, 'USD', 'RUB');
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "/help") {
-        $reply = "Названия кодов можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \nПример: krw inr";
+        $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \n
+        Пример сообщения, которое Вы можете отправить боту: krw inr";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } else {
+       /* if (preg_match('/^\w{3}\s\w{3}$/', $text))
+        {
+
+        }*/
+        $keyboard = array('inline_keyboard' => array(array('button_en', 'button_ru')));
+        $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+        $reply_markup = json_encode($reply_markup);
         $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     }
