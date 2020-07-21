@@ -99,7 +99,7 @@ if($text){
         $reply = "курс евро к рублю: " . convertCurrency(1, 'EUR', 'RUB');
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "/help") {
-        $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \n
+        $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/ \n
         Пример сообщения, которое Вы можете отправить боту: krw inr";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "Выбрать валютную пару") {
@@ -114,12 +114,12 @@ if($text){
         $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } /*elseif (isCurrencyCodesPair($text, $currencies)) {
+    } elseif (isCurrencyCodesPair($text, $currencies)) {
         $text = mb_strtoupper($text);
         $pair = explode(" ", $text);
         $reply = convertCurrency(1, $pair[0], $pair[1]);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } */else {
+    } else {
         $reply = "Повторите ввод";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     }
