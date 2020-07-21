@@ -43,8 +43,7 @@ function generatePairKeyBoard($selectedCurrency, $currencies)
     return $keyBoard;
 }
 
-function generateKeyBoard($currencies)
-{
+function generateKeyBoard($currencies) {
     $keyBoard = [];
     $keyRow = [];
     $counter = 0;
@@ -65,10 +64,25 @@ function generateKeyBoard($currencies)
     return $keyBoard;
 }
 
+function isCurrencyCode($code, $currencies) {
+    $code = mb_strtoupper($code);
+    return (preg_match('/^\w{3}$/', $code) && in_array($code, $currencies));
+}
+
+function isCurrencyCodesPair($text, $currencies) {
+    $isPair = false;
+    if (preg_match('/^\w{3}\s\w{3}$/', $text)) {
+        $text = mb_strtoupper($text);
+        $pair = explode(" ", $text);
+        $isPair = (isCurrencyCode($pair[0], $currencies) && isCurrencyCode($pair[1], $currencies));
+    }
+    return $isPair;
+}
+
 $telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
 $result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
 $text = $result["message"]["text"]; //Текст сообщения
-$text = mb_strtoupper($text);
+
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
 $keyboard = [["USD RUB"],["EUR RUB"],["Выбрать валютную пару"]]; //Клавиатура
 $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
@@ -94,14 +108,16 @@ if($text){
         $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } elseif (preg_match('/^\w{3}$/', $text) && in_array($text, $currencies)) {
+    } elseif (isCurrencyCode($text, $currencies)) {
         $reply = "Выберите второй элемент валютной пары";
         $keyboard = generatePairKeyBoard($text, $currencies); //Клавиатура
         $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } elseif (preg_match('/^\w{3}\s$\w{3}/', $text)) {
-        $reply = "";
+    } elseif (isCurrencyCodesPair($text, $currencies)) {
+        $text = mb_strtoupper($text);
+        $pair = explode(" ", $text);
+        $reply = convertCurrency(1, $pair[0], $pair[1]);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } else {
         $reply = "Повторите ввод";
