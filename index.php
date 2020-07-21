@@ -117,7 +117,7 @@ if($text){
     } elseif (isCurrencyCodesPair($text, $currencies)) {
         $text = mb_strtoupper($text);
         $pair = explode(" ", $text);
-        $reply = convertCurrency(1, $pair[0], $pair[1]) . $pair[0] . $pair[1];
+        $reply = convertCurrency(1, $pair[0], $pair[1]) . "";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } else {
         $reply = "Повторите ввод";
