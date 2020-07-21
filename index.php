@@ -82,14 +82,15 @@ function isCurrencyCodesPair($text, $currencies) {
 $telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
 $result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
 $text = $result["message"]["text"]; //Текст сообщения
+
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
-
-
+$keyboard = [["USD RUB"],["EUR RUB"],["Выбрать валютную пару"]]; //Клавиатура
+$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+$reply_markup = json_encode($reply_markup);
 
 if($text){
     if ($text == "/start") {
         $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
-        $keyboard = [["USD RUB"],["EUR RUB"],["Выбрать валютную пару"]]; //Клавиатура
         //$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     }/* elseif ($text == "USD RUB") {
         $reply = "курс доллара США к рублю: " . convertCurrency(1, 'USD', 'RUB');
@@ -100,19 +101,18 @@ if($text){
     }*/ elseif ($text == "/help") {
         $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/ \n
         Пример сообщения, которое Вы можете отправить боту: krw inr";
-        $keyboard = [["USD RUB"],["EUR RUB"],["Выбрать валютную пару"]]; //Клавиатура
     } elseif ($text == "Выбрать валютную пару") {
         $reply = "Выберите первый элемент валютной пары";
         $keyboard = generateKeyBoard($currencies); //Клавиатура
-       /* $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+        $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
-        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);*/
+        //$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif (isCurrencyCode($text, $currencies)) {
         $reply = "Выберите второй элемент валютной пары";
         $keyboard = generatePairKeyBoard($text, $currencies); //Клавиатура
-        /*$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+        $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
-        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);*/
+        //$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif (isCurrencyCodesPair($text, $currencies)) {
         $text = mb_strtoupper($text);
         $pair = explode(" ", $text);
@@ -126,11 +126,8 @@ if($text){
     $reply = "Отправьте текстовое сообщение";
     //$telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
 }
-$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
-$reply_markup = json_encode($reply_markup);
+
 $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-
-
 
 //$telegram->sendMessage()
 
