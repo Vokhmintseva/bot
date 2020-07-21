@@ -32,12 +32,21 @@ if($text){
         $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "USD RUB") {
-        $reply = convertCurrency(1, 'USD', 'RUB');
+        $reply = "курс доллара США к рублю: " . convertCurrency(1, 'USD', 'RUB');
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    } elseif ($text == "EUR RUB"){
+        $reply = "курс евро к рублю: " . convertCurrency(1, 'USD', 'RUB');
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    } elseif ($text == "/help") {
+        $reply = "Названия кодов можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \nПример: krw inr";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } else {
         $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     }
+} else {
+    $reply = "Отправьте текстовое сообщение. Укажите буквенные коды валютной пары через пробел";
+    $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
 }
 
 
