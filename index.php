@@ -64,7 +64,7 @@ function generateKeyBoard($currencies) {
     return $keyBoard;
 }
 
-function isCurrencyCode($code, $currencies) {
+/*function isCurrencyCode($code, $currencies) {
     $code = mb_strtoupper($code);
     return (preg_match('/^\w{3}$/', $code) && in_array($code, $currencies));
 }
@@ -77,7 +77,7 @@ function isCurrencyCodesPair($text, $currencies) {
         $isPair = (isCurrencyCode($pair[0], $currencies) && isCurrencyCode($pair[1], $currencies));
     }
     return $isPair;
-}
+}*/
 
 $telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
 $result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
@@ -98,7 +98,7 @@ if($text){
     } elseif ($text == "EUR RUB"){
         $reply = "курс евро к рублю: " . convertCurrency(1, 'EUR', 'RUB');
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } elseif ($text == "/help") {
+    } /*elseif ($text == "/help") {
         $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \n
         Пример сообщения, которое Вы можете отправить боту: krw inr";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
@@ -119,7 +119,7 @@ if($text){
         $pair = explode(" ", $text);
         $reply = convertCurrency(1, $pair[0], $pair[1]);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } else {
+    } */else {
         $reply = "Повторите ввод";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     }
