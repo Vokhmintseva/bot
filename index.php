@@ -67,39 +67,35 @@ function generateKeyBoard($currencies)
 
 $telegram = new Api('1319707453:AAGpynbcay-SL9DQXY2EZHeEH5zOQqbj3ac'); //Устанавливаем токен, полученный у BotFather
 $result = $telegram -> getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
-
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
+$keyboard = [["USD RUB"],["EUR RUB"],["Выбрать валютную пару"]]; //Клавиатура
+$reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+$reply_markup = json_encode($reply_markup);
 
 if($text){
     if ($text == "/start") {
-        $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел или выберите первый элемент валютной пары";
-        $keyboard = generateKeyBoard($currencies); //Клавиатура
-        $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
-        $reply_markup = json_encode($reply_markup);
+        $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } /*elseif ($text == "USD RUB") {
+    } elseif ($text == "USD RUB") {
         $reply = "курс доллара США к рублю: " . convertCurrency(1, 'USD', 'RUB');
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "EUR RUB"){
-        $reply = "курс евро к рублю: " . convertCurrency(1, 'USD', 'RUB');
+        $reply = "курс евро к рублю: " . convertCurrency(1, 'EUR', 'RUB');
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
     } elseif ($text == "/help") {
         $reply = "Названия кодов валют можно посмотреть по ссылке http://www.cbr.ru/currency_base/daily/. \n
         Пример сообщения, которое Вы можете отправить боту: krw inr";
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    } else {
-        $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел или выберите первый элемент валютной пары";
+    } elseif ($text == "Выбрать валютную пару") {
+        $reply = "Выберите первый элемент валютной пары";
         $keyboard = generateKeyBoard($currencies); //Клавиатура
         $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
-    }*/
+    }
 } else {
-    $reply = "Добро пожаловать в бота! Укажите буквенные коды валютной пары через пробел или выберите первый элемент валютной пары";
-    $keyboard = generateKeyBoard($currencies); //Клавиатура
-    $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
-    $reply_markup = json_encode($reply_markup);
+    $reply = "Отправьте текстовое сообщение";
     $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
 }
 
