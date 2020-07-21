@@ -28,7 +28,7 @@ function generatePairKeyBoard($selectedCurrency, $currencies)
         {
             continue;
         }
-        $keyRow[] = $selectedCurrency . "_" . $value;
+        $keyRow[] = $selectedCurrency . " " . $value;
         $counter++;
         if ($counter % 4 == 0)
         {
@@ -90,6 +90,12 @@ if($text){
     } elseif ($text == "Выбрать валютную пару") {
         $reply = "Выберите первый элемент валютной пары";
         $keyboard = generateKeyBoard($currencies); //Клавиатура
+        $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
+        $reply_markup = json_encode($reply_markup);
+        $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
+    } elseif (preg_match('/^\w{3}$/', $text)) {
+        $reply = "Выберите второй элемент валютной пары";
+        $keyboard = generatePairKeyBoard($text, $currencies); //Клавиатура
         $reply_markup = [ 'keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false ];
         $reply_markup = json_encode($reply_markup);
         $telegram->sendMessage([ 'chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup ]);
